@@ -6,44 +6,31 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+
 
 namespace ServicioFechaYHora
 {
     class Server
     {
-        static void Main(string[] args)
+        Socket s;
+        bool conexion;
+
+
+        public Server(Socket s)
         {
-            IPEndPoint ie = new IPEndPoint(IPAddress.Loopback, 31416); // Establezco un par IP-Puerto para el server
-            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // Establezco el Socket
+            this.s = s;
+            conexion = true;
 
-            // Compruebo si el puerto está ocupado
-            try
-            {
-                s.Bind(ie); // Se enlaza el Socket al IPEndPoint
-                // Salta excepción si el puerto está ocupado
-            }
-            catch (SocketException e) when (e.ErrorCode == (int)SocketError.AddressAlreadyInUse)
-            {
-                // Si está ocupado, lo cambio a otro secundario
-                ie.Port = 31415;
-                try
-                {
-                    s.Bind(ie);
-                    Console.WriteLine("Servidor lanzado en el puerto " + ie.Port);
-                }
-                catch (SocketException e1) when (e1.ErrorCode == (int)SocketError.AddressAlreadyInUse)
-                {
-                    // Si el secundario también está ocupado, cierro el server
-                    Console.WriteLine("Puertos ocupados, no se puede lanzar el servidor");
-                    s.Close();
-                    return;
-                }
-            }
+            Thread hilo = new Thread(hiloServidor);
+            hilo.IsBackground = true;
+            hilo.Start();
+        }
 
-            s.Listen(5); // Se queda esperando una conexión y se establece la cola a 5 clientes máximo en cola
 
-            bool conexion = true;
-            while (conexion)
+        private void hiloServidor()
+        {
+            while (this.conexion)
             {
                 // Cliente :
                 Socket sClient = s.Accept(); // Aceptamos la conexión del cliente
