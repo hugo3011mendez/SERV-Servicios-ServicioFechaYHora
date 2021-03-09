@@ -63,6 +63,8 @@ namespace ServicioFechaYHora
             {
                 s.Bind(ie); // Se enlaza el Socket al IPEndPoint
                 // Salta excepción si el puerto está ocupado
+
+                escribeEvento("Servidor de fecha y hora lanzado en el puerto " + ie.Port); // Escribo un evento informando del puerto en el que he lanzado el servidor
             }
             catch (SocketException e) when (e.ErrorCode == (int)SocketError.AddressAlreadyInUse)
             {
@@ -97,7 +99,7 @@ namespace ServicioFechaYHora
 
         protected override void OnStop() // Cuando pare el servicio, crearé un evento informando de que se ha parado
         {
-            escribeEvento("El servidor de fecha y hora se ha parado con éxito");
+            escribeEvento("El servidor de fecha y hora se ha detenido con éxito");
         }
 
 
