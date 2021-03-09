@@ -18,7 +18,7 @@ namespace ServicioFechaYHora
     public partial class ServicioFechaYHora : ServiceBase
     {
         string nombreConfiguracion = "configServidorFechaYHora.txt"; // Nombre del archivo del que va a leer el puerto
-        int puerto = 31416; // Número de puerto por defecto
+        int puerto = 4800; // Número de puerto por defecto
         int puertoEnArchivo; // Recpgerá el puerto guardado en el archivo de configuración, si lo hay
 
         bool conexion = true; // Indica si se puede hacer la conexión o no
@@ -50,13 +50,16 @@ namespace ServicioFechaYHora
 
             bool hayPuertoEnFichero = leerPuertoConfig(); // Intentamos leer el puerto guardado en el archivo de configuración
 
+
             if (hayPuertoEnFichero) // Si el archivo contiene un puerto, se establece ese como puerto del server
             {
                 puerto = puertoEnArchivo;
             }
 
+
             IPEndPoint ie = new IPEndPoint(IPAddress.Loopback, puerto); // Establezco un par IP-Puerto para el server
             Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // Establezco el Socket
+
 
             // Compruebo si el puerto está ocupado
             try
@@ -66,10 +69,10 @@ namespace ServicioFechaYHora
 
                 escribeEvento("Servidor de fecha y hora lanzado en el puerto " + ie.Port); // Escribo un evento informando del puerto en el que he lanzado el servidor
             }
-            catch (SocketException e) when (e.ErrorCode == (int)SocketError.AddressAlreadyInUse)
+            catch (SocketException)
             {
                 // Si está ocupado, cambio la propiedad a otro secundario, y el puerto del IPEndPoint lo establezco a esa propiedad
-                puerto = 31416;
+                puerto = 4800;
                 ie.Port = puerto;
 
                 try
@@ -77,13 +80,16 @@ namespace ServicioFechaYHora
                     s.Bind(ie);
                     escribeEvento("Servidor de fecha y hora lanzado en el puerto " + ie.Port); // Escribo un evento informando del puerto en el que he lanzado el servidor
                 }
-                catch (SocketException e1) when (e1.ErrorCode == (int)SocketError.AddressAlreadyInUse)
+                catch (SocketException)
                 {
                     conexion = false; // Pongo la variable que indica si hay conexión a false
 
                     // Si el secundario también está ocupado, escribo un evento informando de que los dos puertos están ocupados y cierro el sever
                     escribeEvento("Ambos puertos ocupados, no se puede lanzar el servidor de fecha y hora");
                     s.Close();
+
+                    OnStop();
+
                     return;
                 }
             }

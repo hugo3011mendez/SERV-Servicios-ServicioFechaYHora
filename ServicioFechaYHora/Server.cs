@@ -66,7 +66,7 @@ namespace ServicioFechaYHora
                                 break;
 
                             case "TODO":
-                                msgParaElCliente = "El cliente con IP " + ieClient.Address + " ha proporcionado la hora : " + DateTime.Now.ToString("HH:mm:ss") + "\nEl cliente con IP " + ieClient.Address + " ha proporcionado la fecha : " + DateTime.Now.ToString("dd/MM/yyyy");
+                                msgParaElCliente = "El cliente con IP " + ieClient.Address + " ha proporcionado la hora : " + DateTime.Now.ToString("HH:mm:ss") + "\n\nEl cliente con IP " + ieClient.Address + " ha proporcionado la fecha : " + DateTime.Now.ToString("dd/MM/yyyy");
                                 break;
 
                             case "APAGAR":
