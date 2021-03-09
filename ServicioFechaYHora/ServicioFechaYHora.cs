@@ -18,7 +18,7 @@ namespace ServicioFechaYHora
     public partial class ServicioFechaYHora : ServiceBase
     {
         string nombreConfiguracion = "configServidorFechaYHora.txt"; // Nombre del archivo del que va a leer el puerto
-        int puerto = 4800; // Número de puerto por defecto
+        int puerto = 31416; // Número de puerto por defecto
         int puertoEnArchivo; // Recpgerá el puerto guardado en el archivo de configuración, si lo hay
 
         bool conexion = true; // Indica si se puede hacer la conexión o no
@@ -72,7 +72,7 @@ namespace ServicioFechaYHora
             catch (SocketException)
             {
                 // Si está ocupado, cambio la propiedad a otro secundario, y el puerto del IPEndPoint lo establezco a esa propiedad
-                puerto = 4800;
+                puerto = 31416;
                 ie.Port = puerto;
 
                 try
