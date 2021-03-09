@@ -33,13 +33,14 @@
             // 
             // serviceProcessInstaller1
             // 
+            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
             // 
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Servicio que indica la fecha y/o la hora actuales según indique el cliente";
-            this.serviceInstaller1.DisplayName = "Servidor Fecha y Hora";
+            this.serviceInstaller1.DisplayName = "Fecha y Hora";
             this.serviceInstaller1.ServiceName = "ServicioFechaYHora";
             // 
             // ProjectInstaller
