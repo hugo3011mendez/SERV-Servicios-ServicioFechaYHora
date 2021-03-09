@@ -40,7 +40,7 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Servicio que indica la fecha y/o la hora actuales según indique el cliente";
-            this.serviceInstaller1.DisplayName = "Fecha y Hora";
+            this.serviceInstaller1.DisplayName = "Fecha Y Hora";
             this.serviceInstaller1.ServiceName = "ServicioFechaYHora";
             // 
             // ProjectInstaller

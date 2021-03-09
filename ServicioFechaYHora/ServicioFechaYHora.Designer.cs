@@ -31,6 +31,7 @@
             // 
             // ServicioFechaYHora
             // 
+            this.AutoLog = false;
             this.ServiceName = "ServicioFechaYHora";
 
         }
